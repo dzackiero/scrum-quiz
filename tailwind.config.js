@@ -3,6 +3,7 @@
 const colors = require("tailwindcss/colors");
 
 export default {
+    darkMode: "class",
     presets: [require("./vendor/wireui/wireui/tailwind.config.js")],
     content: [
         "./resources/**/*.blade.php",
@@ -11,6 +12,7 @@ export default {
         "./vendor/wireui/wireui/resources/**/*.blade.php",
         "./vendor/wireui/wireui/ts/**/*.ts",
         "./vendor/wireui/wireui/src/View/**/*.php",
+        "./app/Http/Livewire/**/*Table.php",
     ],
     theme: {
         extend: {
@@ -31,5 +33,9 @@ export default {
             },
         },
     },
-    plugins: [require("@tailwindcss/forms")],
+    plugins: [
+        require("@tailwindcss/forms")({
+            strategy: "class",
+        }),
+    ],
 };

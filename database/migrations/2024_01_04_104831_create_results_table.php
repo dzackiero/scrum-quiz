@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('position');
-            $table->unsignedFloat("value");
+            $table->unsignedFloat("result");
             $table->timestamps();
         });
     }

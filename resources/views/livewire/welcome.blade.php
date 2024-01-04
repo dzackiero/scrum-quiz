@@ -5,10 +5,10 @@
                 Development</h1>
         </nav>
     </header>
+
     @if ($step == 0)
         {{-- First Screen --}}
-
-        <main class="pt-24 px-2 flex flex-col items-center">
+        <main class="pt-12 px-2 flex flex-col gap-4 items-center">
             <div class="p-6 border rounded-md max-w-screen-sm w-full flex flex-col gap-6 bg-white shadow-md">
                 <h3 class="text-xl text-center font-medium">Masukkan Data Diri</h3>
                 <x-input label="Name" wire:model="name" placeholder="Nama Lengkap" />
@@ -45,4 +45,21 @@
             </div>
         </main>
     @endif
+
+    {{-- Modal --}}
+    <x-modal wire:model.defer="modal">
+        <x-card title="Consent Terms">
+            <p class="text-gray-600">
+                Lorem Ipsum...
+            </p>
+
+            <x-slot name="footer">
+                <div class="flex justify-end gap-x-4">
+                    <x-button flat label="Cancel" wire:click="$toggle('modal')" />
+                    <x-button primary label="I Agree" wire:click="deleteResult" />
+                </div>
+            </x-slot>
+        </x-card>
+    </x-modal>
+
 </div>

@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Result;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class Welcome extends Component
 {
@@ -10,6 +12,8 @@ class Welcome extends Component
     public int $step = 0;
     public string $name = "";
     public string $position = "";
+
+
 
     public array $questions = [
         1 => "Kemampuan melakukan pengembangan pengetahuan tentang produk",
@@ -278,6 +282,27 @@ class Welcome extends Component
         ]
     ];
 
+    public bool $modalState = false;
+
+    public $selectedResult;
+
+    #[On('open-modal')]
+    function openModal($id)
+    {
+        $this->modalState = true;
+        $this->selectedResult = $id;
+    }
+
+    function deleteResult()
+    {
+        $result = Result::find($this->selectedResult);
+        if ($result) {
+            $result->delete();
+            $this->dispatch("saved");
+            $this->modalState = false;
+        }
+    }
+
     function calculateTotal()
     {
         return collect($this->answers)
@@ -288,22 +313,42 @@ class Welcome extends Component
             ->sum('value');
     }
 
-    function nextStep(): void
+    function resetStates()
+    {
+        $collection = collect($this->answers);
+
+        $collection->transform(function ($group) {
+            return collect($group)->map(function ($answer) {
+                $answer['state'] = false;
+                return $answer;
+            })->all();
+        });
+
+        $this->answers = $collection->all();
+    }
+
+    function nextStep()
     {
         if ($this->step < count($this->questions)) {
             $this->step++;
         } else {
-            dd($this->calculateTotal());
+            Result::create([
+                "name" => $this->name,
+                "position" => $this->position,
+                "result" => $this->calculateTotal() ?: 0,
+            ]);
+            $this->dispatch("saved");
+            $this->step = 0;
         }
     }
+
+
     function prevStep(): void
     {
         if ($this->step > 0) {
             $this->step--;
         }
     }
-
-
 
     function jumpToStep(int $step): void
     {

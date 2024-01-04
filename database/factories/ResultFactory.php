@@ -19,7 +19,7 @@ class ResultFactory extends Factory
         return [
             'name' => fake()->name(),
             'position' => fake()->company(),
-            'value' => fake()->randomFloat(null, 0, 100),
+            'result' => fake()->randomFloat(null, 0, 100),
         ];
     }
 }
