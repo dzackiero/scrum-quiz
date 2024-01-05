@@ -10,7 +10,7 @@ use Livewire\Attributes\Validate;
 class Welcome extends Component
 {
 
-    public int $step = 1;
+    public int $step = 0;
     public float $total = 0;
 
     #[Validate('required|min:3')]
