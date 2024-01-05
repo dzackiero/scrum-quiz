@@ -35,13 +35,13 @@ class ResultTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
-            Column::make("Name", "name")
+            Column::make("Nama", "name")
                 ->sortable(),
-            Column::make("Position", "position")
+            Column::make("Posisi", "position")
                 ->sortable(),
-            Column::make("Result", "result")
+            Column::make("Nilai", "result")
                 ->sortable(),
-            Column::make("Created at", "created_at")
+            Column::make("Tanggal", "created_at")
                 ->format(
                     fn($value) => Carbon::parse($value)->format("d/m/Y H:i:s")
                 )
