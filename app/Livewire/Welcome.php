@@ -5,15 +5,19 @@ namespace App\Livewire;
 use App\Models\Result;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
 
 class Welcome extends Component
 {
 
     public int $step = 0;
+    public float $total = 0;
+
+    #[Validate('required|min:3')]
     public string $name = "";
+
+    #[Validate('required|min:3')]
     public string $position = "";
-
-
 
     public array $questions = [
         1 => "Kemampuan melakukan pengembangan pengetahuan tentang produk",
@@ -283,7 +287,6 @@ class Welcome extends Component
     ];
 
     public bool $modalState = false;
-
     public $selectedResult;
 
     #[On('open-modal')]
@@ -293,7 +296,7 @@ class Welcome extends Component
         $this->selectedResult = $id;
     }
 
-    function deleteResult()
+    function deleteData()
     {
         $result = Result::find($this->selectedResult);
         if ($result) {
@@ -305,12 +308,14 @@ class Welcome extends Component
 
     function calculateTotal()
     {
-        return collect($this->answers)
+        $this->total = collect($this->answers)
             ->flatten(1)
             ->filter(function ($answer) {
                 return $answer['state'];
             })
-            ->sum('value');
+            ->sum('value') ?: 0;
+
+        return $this->total;
     }
 
     function resetStates()
@@ -325,11 +330,16 @@ class Welcome extends Component
         });
 
         $this->answers = $collection->all();
+        $this->step = 0;
     }
 
     function nextStep()
     {
+
         if ($this->step < count($this->questions)) {
+            if ($this->step == 0) {
+                $this->validate();
+            }
             $this->step++;
         } else {
             Result::create([
@@ -337,8 +347,7 @@ class Welcome extends Component
                 "position" => $this->position,
                 "result" => $this->calculateTotal() ?: 0,
             ]);
-            $this->dispatch("saved");
-            $this->step = 0;
+            $this->step++;
         }
     }
 

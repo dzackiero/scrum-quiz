@@ -9,10 +9,11 @@ export default {
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
+        "./app/Http/Livewire/**/*Table.php",
+        "./vendor/rappasoft/laravel-livewire-tables/resources/views/**/*.blade.php",
         "./vendor/wireui/wireui/resources/**/*.blade.php",
         "./vendor/wireui/wireui/ts/**/*.ts",
         "./vendor/wireui/wireui/src/View/**/*.php",
-        "./app/Http/Livewire/**/*Table.php",
     ],
     theme: {
         extend: {

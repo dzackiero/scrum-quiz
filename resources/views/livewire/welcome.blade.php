@@ -8,17 +8,27 @@
 
     @if ($step == 0)
         {{-- First Screen --}}
-        <main class="pt-12 px-2 flex flex-col gap-4 items-center">
+        <main class="py-12 px-2 flex flex-col gap-4 items-center">
             <div class="p-6 border rounded-md max-w-screen-sm w-full flex flex-col gap-6 bg-white shadow-md">
                 <h3 class="text-xl text-center font-medium">Masukkan Data Diri</h3>
                 <x-input label="Name" wire:model="name" placeholder="Nama Lengkap" />
                 <x-input label="Posisi" wire:model="position" placeholder="Posisi" />
                 <x-button md primary wire:click="nextStep" label="Mulai Penilaian" />
             </div>
+            <div class="p-6 max-w-screen-xl w-full flex flex-col gap-6 bg-white shadow-md">
+                <livewire:result-table />
+            </div>
+        </main>
+    @elseif ($step > count($questions))
+        <main class="py-12 px-2 flex flex-col gap-4 items-center">
+            <div class="p-6 border rounded-md max-w-screen-sm w-full flex flex-col gap-4 bg-white shadow-md">
+                <h1 class="text-xl text-center font-medium">Hasil Penilaian</h1>
+                <h1 class="text-3xl text-center font-semibold">{{ $total }}</h1>
+                <x-button md primary wire:click="resetStates" label="Kembali ke Awal" />
+            </div>
         </main>
     @else
         {{-- Question Screen --}}
-
         <main class="p-4 md:p-8">
             <div class="relative py-4 items-center hidden sm:flex justify-evenly">
                 <div class="absolute top-1/2 left-0 right-0 h-1 -z-10 bg-gray-300"></div>
@@ -41,22 +51,23 @@
 
             <div class="flex justify-between">
                 <x-button md primary outline wire:click="prevStep" label="Sebelumnya" />
-                <x-button md primary wire:click="nextStep" label="Selanjutnya" />
+                <x-button md primary wire:click="nextStep"
+                    label="{{ $step == count($questions) ? 'Selesai' : 'Selanjutnya' }}" />
             </div>
         </main>
     @endif
 
-    {{-- Modal --}}
+    {{-- Delete Modal --}}
     <x-modal wire:model.defer="modal">
-        <x-card title="Consent Terms">
+        <x-card title="Hapus">
             <p class="text-gray-600">
-                Lorem Ipsum...
+                Apakah anda yakin?
             </p>
 
             <x-slot name="footer">
                 <div class="flex justify-end gap-x-4">
-                    <x-button flat label="Cancel" wire:click="$toggle('modal')" />
-                    <x-button primary label="I Agree" wire:click="deleteResult" />
+                    <x-button flat label="Batal" wire:click="$toggle('modal')" />
+                    <x-button primary label="Hapus" wire:click="deleteData" />
                 </div>
             </x-slot>
         </x-card>
