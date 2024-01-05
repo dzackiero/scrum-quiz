@@ -21,7 +21,7 @@
         </main>
     @elseif ($step > count($questions))
         <main class="py-12 px-2 flex flex-col gap-4 items-center">
-            <div class="p-6 border rounded-md max-w-screen-sm w-full flex flex-col gap-4 bg-white shadow-md">
+            <div class="p-6 border rounded-md max-w-screen-sm w-full flex flex-col gap-4 bg-white shadow-md ">
                 <h1 class="text-xl text-center font-medium">Hasil Penilaian</h1>
                 <h1 class="text-3xl text-center font-semibold">{{ $total }}</h1>
                 <x-button md primary wire:click="resetStates" label="Kembali ke Awal" />
@@ -30,8 +30,9 @@
     @else
         {{-- Question Screen --}}
         <main class="p-4 md:p-8">
-            <div class="relative py-4 items-center hidden sm:flex justify-evenly">
-                <div class="absolute top-1/2 left-0 right-0 h-1 -z-10 bg-gray-300"></div>
+            <div
+                class="relative py-4 flex items-center gap-2 sm:gap-0 overflow-x-auto sm:justify-evenly scrollbar-thin scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                <div class="absolute hidden sm:flex top-1/2 left-0 right-0 h-1 -z-10 bg-gray-300"></div>
                 @foreach ($questions as $index => $question)
                     <x-step-button :step="$index" :currentStep="$step" />
                 @endforeach
