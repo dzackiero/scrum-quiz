@@ -2,7 +2,7 @@
     <header>
         <nav class="p-4 shadow-sm">
             <h1 class="text-lg sm:text-lg md:text-xl font-semibold overflow-ellipsis">Instumen Penilaian Scrum Tim
-                Developmenta</h1>
+                Development</h1>
         </nav>
     </header>
 
