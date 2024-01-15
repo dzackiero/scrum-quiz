@@ -14,12 +14,9 @@ on:
 # and run our deployment script
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: latest
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
@@ -27,4 +24,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd /var/www/scrum-quiz && ./.scripts/deploy.sh"
+          script: "cd ~/laradock/src && ./.scripts/deploy.sh"

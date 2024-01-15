@@ -7,27 +7,27 @@ source ~/.nvm/nvm.sh
 
 # Enter maintenance mode or return true
 # if already is in maintenance mode
-(php artisan down) || true
+(docker compose run --rm artisan down || true)
 
 # Pull the latest version of the app
 git pull origin production
 
 # Install composer dependencies
-composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+docker compose run --rm composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 # Clear the old cache
-php artisan clear-compiled
+docker compose run --rm artisan clear-compiled
 
 # Recreate cache
-php artisan optimize
+docker compose run --rm artisan optimize
 
 # Compile npm assets
-npm run build
+docker compose run --rm npm run build
 
 # Run database migrations
-php artisan migrate --force
+docker compose run --rm artisan migrate --force
 
 # Exit maintenance mode
-php artisan up
+docker compose run --rm artisan up
 
 echo "Deployment finished!"
